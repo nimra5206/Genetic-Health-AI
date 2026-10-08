@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# =========================
+# Django
+# =========================
+*.log
+db.sqlite3
+
+# Environment variables
+.env
+.env.*
+
+# =========================
+# React / Vite / Node
+# =========================
+node_modules/
+dist/
+build/
+.vite/
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Python testing/cache
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/

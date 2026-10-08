@@ -1,0 +1,156 @@
+/* ==========================================
+   CLEAN FLOATING CHATBOT INNER STYLES
+   ========================================== */
+
+.knowledge-ai-chat-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: #f8fafc;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+/* Chat Messages Box */
+.chat-messages-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.chat-bubble-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+.chat-bubble-row.user {
+  justify-content: flex-end;
+}
+
+.bot-avatar-icon {
+  width: 28px;
+  height: 28px;
+  background: #e0f2fe;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.chat-bubble {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  text-align: left;
+  word-break: break-word;
+}
+
+.chat-bubble.bot {
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  border-top-left-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.chat-bubble.user {
+  background: #0d9f9a;
+  color: #ffffff;
+  border-top-right-radius: 2px;
+}
+
+/* Quick Prompt Pills Section */
+.quick-prompts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #f8fafc;
+}
+
+.prompt-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 18px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.prompt-pill-btn:hover {
+  background: #0d9f9a;
+  color: #ffffff;
+  border-color: #0d9f9a;
+}
+
+/* Input Area Section */
+.chat-input-section {
+  padding: 12px 16px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.chat-input-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.chat-text-input {
+  flex: 1;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  background: #f8fafc;
+  box-sizing: border-box;
+}
+
+.chat-text-input:focus {
+  border-color: #0d9f9a;
+  background: #ffffff;
+}
+
+.chat-send-btn {
+  height: 40px;
+  padding: 0 16px;
+  background: #4f46e5;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.chat-send-btn:hover {
+  background: #4338ca;
+}
+
+.chat-disclaimer-note {
+  margin: 8px 0 0 0;
+  font-size: 10.5px;
+  color: #94a3b8;
+  text-align: center;
+}

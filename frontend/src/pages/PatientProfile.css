@@ -1,0 +1,211 @@
+/* Main Page Layout - Transparent & Container-free */
+.prediction-page {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1e293b;
+}
+
+/* Header Section */
+.prediction-header {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  padding: 24px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.15);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heading-title-box h1 {
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.preset-card-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.preset-label {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #e0f2fe;
+}
+
+.disease-select-dropdown {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: #ffffff;
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.disease-select-dropdown:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3);
+}
+
+/* Toast Banners */
+.toast-banner {
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.toast-banner.success {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.toast-banner.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* Form Cards */
+.form-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.card-title-row h2 {
+  margin: 0 0 16px 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0f172a;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.input-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-field-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.input-field-group input,
+.input-field-group select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #0f172a;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-field-group input:focus,
+.input-field-group select:focus {
+  outline: none;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+.range-hint {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-bottom: 30px;
+}
+
+.cancel-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background-color: #f1f5f9;
+}
+
+.primary-action-btn.submit-btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  background-color: #0284c7;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+}
+
+.primary-action-btn.submit-btn:hover:not(:disabled) {
+  background-color: #0369a1;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Loading Spinner */
+.loading-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ffffff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

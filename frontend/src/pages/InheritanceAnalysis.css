@@ -1,0 +1,280 @@
+/* ==========================================
+   INHERITANCE RISK ANALYSIS - EXACT MATCH HEADING
+   ========================================== */
+.inheritance-page {
+  padding: 32px 24px !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  min-height: calc(100vh - 64px) !important;
+  box-sizing: border-box !important;
+}
+
+/* Header - Exact match with Disease & Disorder Explorer color */
+.inheritance-header {
+  margin-bottom: 24px !important;
+}
+
+.inheritance-header h1 {
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  color: #2563eb !important; /* Baqi pages wala exact bright blue color */
+  margin: 0 0 8px 0 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.patient-theme .inheritance-header h1,
+.patient-mode .inheritance-header h1 {
+  color: #0f766e !important;
+}
+
+/* Tabs */
+.disease-tabs {
+  display: flex !important;
+  gap: 12px !important;
+  margin-bottom: 28px !important;
+  flex-wrap: wrap !important;
+}
+
+.tab-btn {
+  background-color: #FEFCFB !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #475569 !important;
+  padding: 10px 20px !important;
+  border-radius: 20px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.tab-btn:hover {
+  background-color: #f8fafc !important;
+  border-color: #2563eb !important;
+}
+
+.tab-btn.active {
+  background-color: #2563eb !important;
+  color: #FEFCFB !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2) !important;
+}
+
+.patient-theme .tab-btn.active,
+.patient-mode .tab-btn.active {
+  background-color: #14967F !important;
+  border-color: #14967F !important;
+}
+
+/* Main Grid Layout */
+.inheritance-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 24px !important;
+  align-items: stretch !important;
+}
+
+@media (max-width: 960px) {
+  .inheritance-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Cards Base */
+.card {
+  background-color: #FEFCFB !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 14px !important;
+  padding: 26px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+}
+
+.card-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  margin-bottom: 20px !important;
+}
+
+.card-header h3 {
+  margin: 0 !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+}
+
+.cross-subtitle {
+  margin: 6px 0 0 0 !important;
+  font-size: 14px !important;
+  color: #2563eb !important;
+  font-weight: 600 !important;
+}
+
+.pattern-badge {
+  background-color: #eff6ff !important;
+  color: #2563eb !important;
+  border: 1px solid #bfdbfe !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+/* Punnett Square Display */
+.punnett-wrapper {
+  margin: 20px 0 !important;
+}
+
+.punnett-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 16px !important;
+}
+
+.punnett-cell {
+  border-radius: 12px !important;
+  padding: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  transition: transform 0.2s ease !important;
+  position: relative !important;
+}
+
+.punnett-cell:hover {
+  transform: translateY(-2px) !important;
+}
+
+.cell-prob {
+  position: absolute !important;
+  top: 10px !important;
+  right: 14px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  opacity: 0.8 !important;
+}
+
+.cell-genotype {
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  margin-bottom: 6px !important;
+}
+
+.cell-label {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  margin-bottom: 4px !important;
+}
+
+.cell-desc {
+  font-size: 12.5px !important;
+  opacity: 0.9 !important;
+}
+
+/* Cell Variants */
+.cell-unaffected {
+  background-color: #f0fdf4 !important;
+  border: 1px solid #bbf7d0 !important;
+  color: #166534 !important;
+}
+
+.cell-carrier {
+  background-color: #fefce8 !important;
+  border: 1px solid #fef08a !important;
+  color: #854d0e !important;
+}
+
+.cell-affected {
+  background-color: #fef2f2 !important;
+  border: 1px solid #fecaca !important;
+  color: #991b1b !important;
+}
+
+/* Legend */
+.legend-box {
+  display: flex !important;
+  justify-content: space-around !important;
+  background-color: #ffffff !important;
+  padding: 14px !important;
+  border-radius: 8px !important;
+  border: 1px solid #cbd5e1 !important;
+  margin-top: 20px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.legend-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.dot {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+}
+
+.dot.unaffected { background-color: #22c55e !important; }
+.dot.carrier { background-color: #eab308 !important; }
+.dot.affected { background-color: #ef4444 !important; }
+
+/* Right Stack Details */
+.right-stack {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+  height: 100% !important;
+}
+
+.detail-card {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  padding: 22px 26px !important;
+}
+
+.highlight-card {
+  background-color: #f0f9ff !important;
+  border-color: #bae6fd !important;
+}
+
+.patient-theme .highlight-card,
+.patient-mode .highlight-card {
+  background-color: #f0fdfa !important;
+  border-color: #ccfbf1 !important;
+}
+
+.section-title {
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 10px !important;
+}
+
+.section-title h3 {
+  margin: 0 !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+}
+
+.gene-locus-tag {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #2563eb !important;
+  margin: 0 0 10px 0 !important;
+}
+
+.card-text {
+  margin: 0 !important;
+  font-size: 14.5px !important;
+  color: #334155 !important;
+  line-height: 1.6 !important;
+}

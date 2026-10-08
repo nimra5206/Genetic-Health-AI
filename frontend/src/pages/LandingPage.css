@@ -1,0 +1,648 @@
+/* =========================================================
+   GENETIC HEALTH AI
+   LANDING PAGE
+   ========================================================= */
+
+.landing-container,
+.landing-container * {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   MAIN LANDING CONTAINER
+   ========================================================= */
+
+.landing-container {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  font-family:
+    "Plus Jakarta Sans",
+    Inter,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  /* CHANGED: Dark Blue Background */
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      #102f4a 0%,
+      #0a2238 45%,
+      #061525 75%,
+      #030d18 100%
+    );
+
+  color: #ffffff;
+  z-index: 9999;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* =========================================================
+   BACKGROUND IMAGE
+   ========================================================= */
+
+.landing-background-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* =========================================================
+   IMAGE OVERLAY
+   ========================================================= */
+
+.landing-image-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  /* CHANGED: dark blue overlay */
+  background:
+    linear-gradient(
+      90deg,
+      rgba(3, 15, 29, 0.90) 0%,
+      rgba(5, 25, 45, 0.78) 45%,
+      rgba(3, 15, 29, 0.88) 100%
+    );
+
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Bottom subtle darkening */
+
+.landing-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(1, 10, 20, 0.30) 0%,
+      transparent 30%,
+      rgba(1, 8, 18, 0.45) 100%
+    );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* =========================================================
+   GLOWS
+   ========================================================= */
+
+.landing-glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.landing-glow-one {
+  top: -180px;
+  left: -130px;
+  background: #0ea5e9;
+}
+
+.landing-glow-two {
+  right: -160px;
+  bottom: -180px;
+  background: #06b6d4;
+}
+
+/* Doctor colors */
+
+.doctor-mode .landing-glow-one {
+  background: #2563eb;
+}
+
+.doctor-mode .landing-glow-two {
+  background: #22d3ee;
+}
+
+/* =========================================================
+   NAVBAR (Patient: Dark Teal | Doctor: Deep Blue)
+   ========================================================= */
+
+.landing-navbar {
+  position: relative !important;
+  z-index: 20 !important;
+  width: 100% !important;
+  min-height: 70px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 42px !important;
+
+  background: linear-gradient(90deg, #0f766e 0%, #115e59 100%) !important;
+  background-color: #0f766e !important;
+
+  border-bottom: 1px solid rgba(94, 234, 212, 0.4) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 4px 20px rgba(15, 118, 110, 0.3) !important;
+  transition: background 0.4s ease, border-color 0.4s ease !important;
+}
+
+.doctor-mode .landing-navbar {
+  background: linear-gradient(90deg, #1e40af 0%, #1e3a8a 100%) !important;
+  background-color: #1e40af !important;
+  border-bottom: 1px solid rgba(147, 197, 253, 0.4) !important;
+  box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3) !important;
+}
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.landing-brand {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  color: #ffffff;
+  font-size: 1.18rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+.landing-brand:hover {
+  color: #bae6fd;
+}
+
+/* =========================================================
+   NAV RIGHT
+   ========================================================= */
+
+.landing-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* =========================================================
+   PORTAL SWITCH
+   ========================================================= */
+
+.portal-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 7px 5px 15px;
+  border-radius: 30px;
+  background: rgba(15, 118, 110, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.doctor-mode .portal-switch {
+  background: rgba(30, 64, 175, 0.7);
+}
+
+.portal-label {
+  font-size: 0.70rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+}
+
+/* =========================================================
+   ROLE SWITCH
+   ========================================================= */
+
+.role-switch {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 24px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.role-btn {
+  appearance: none;
+  border: none;
+  outline: none;
+  padding: 7px 15px;
+  border-radius: 20px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.role-btn:hover {
+  color: #ffffff;
+}
+
+.role-btn.active {
+  background: #ffffff;
+  color: #0f766e;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+}
+
+.doctor-mode .role-btn.active {
+  background: #ffffff;
+  color: #1e40af;
+}
+
+/* =========================================================
+   SIGN IN
+   ========================================================= */
+
+.signin-btn {
+  appearance: none;
+  padding: 9px 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.signin-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   HERO CONTENT
+   ========================================================= */
+
+.landing-content {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px 30px 55px;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero-section {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* =========================================================
+   BADGE
+   ========================================================= */
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding: 8px 17px;
+  border-radius: 30px;
+  background: rgba(15, 118, 110, 0.62);
+  border: 1px solid rgba(94, 234, 212, 0.35);
+  color: #5eead4;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.18);
+  transition: all 0.3s ease;
+}
+
+.doctor-mode .hero-badge {
+  background: rgba(30, 64, 175, 0.62);
+  border-color: rgba(147, 197, 253, 0.35);
+  color: #93c5fd;
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2dd4bf;
+  box-shadow: 0 0 10px rgba(45, 212, 191, 0.95);
+}
+
+.doctor-mode .badge-dot {
+  background: #60a5fa;
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.95);
+}
+
+/* =========================================================
+   MAIN TITLE
+   ========================================================= */
+
+.hero-title {
+  width: 100%;
+  margin: 0;
+  font-size: clamp(3rem, 6vw, 5.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  font-weight: 850;
+  color: #ffffff;
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.48);
+}
+
+.hero-title span {
+  display: inline-block;
+  background:
+    linear-gradient(
+      135deg,
+      #e0f2fe 0%,
+      #67e8f9 35%,
+      #22d3ee 70%,
+      #38bdf8 100%
+    );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 5px 18px rgba(34, 211, 238, 0.22));
+  transition: background 0.3s ease;
+}
+
+.doctor-mode .hero-title span {
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff 0%,
+      #93c5fd 35%,
+      #60a5fa 70%,
+      #3b82f6 100%
+    );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 5px 18px rgba(59, 130, 246, 0.25));
+}
+
+/* =========================================================
+   HERO BUTTONS
+   ========================================================= */
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  margin-top: 34px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.primary-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  min-width: 190px !important;
+  padding: 14px 27px !important;
+  border: none !important;
+  border-radius: 30px !important;
+  background: #0f766e !important;
+  background-color: #0f766e !important;
+  color: white !important;
+  font-size: 0.92rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  box-shadow: 0 10px 25px rgba(15, 118, 110, 0.5) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease !important;
+}
+
+.doctor-mode .primary-btn {
+  background: #1e40af !important;
+  background-color: #1e40af !important;
+  box-shadow: 0 10px 25px rgba(30, 64, 175, 0.5) !important;
+}
+
+.primary-btn span {
+  font-size: 1.1rem !important;
+  color: #ffffff !important;
+  transition: transform 0.25s ease !important;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px) !important;
+  background-color: #115e59 !important;
+  box-shadow: 0 14px 32px rgba(15, 118, 110, 0.7) !important;
+}
+
+.doctor-mode .primary-btn:hover {
+  background-color: #1e3a8a !important;
+  box-shadow: 0 14px 32px rgba(30, 64, 175, 0.7) !important;
+}
+
+.primary-btn:hover span {
+  transform: translateX(4px) !important;
+}
+
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
+.secondary-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 175px !important;
+  padding: 13px 25px !important;
+  border-radius: 30px !important;
+  border: 1px solid #0f766e !important;
+  background: rgba(15, 118, 110, 0.4) !important;
+  color: #ffffff !important;
+  font-size: 0.92rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, color 0.25s ease !important;
+}
+
+.doctor-mode .secondary-btn {
+  border: 1px solid #1e40af !important;
+  background: rgba(30, 64, 175, 0.4) !important;
+}
+
+.secondary-btn:hover {
+  background: rgba(15, 118, 110, 0.7) !important;
+  border-color: #0f766e !important;
+  transform: translateY(-2px) !important;
+}
+
+.doctor-mode .secondary-btn:hover {
+  background: rgba(30, 64, 175, 0.7) !important;
+  border-color: #1e40af !important;
+}
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================= */
+
+@media (max-width: 850px) {
+  .landing-navbar {
+    padding: 0 24px;
+  }
+
+  .portal-label {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: clamp(2.7rem, 8vw, 4rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .landing-navbar {
+    min-height: 64px;
+    padding: 0 15px;
+  }
+
+  .landing-brand {
+    font-size: 0.95rem;
+  }
+
+  .landing-nav-right {
+    gap: 7px;
+  }
+
+  .portal-switch {
+    padding: 3px;
+  }
+
+  .role-switch {
+    padding: 2px;
+  }
+
+  .role-btn {
+    padding: 6px 9px;
+    font-size: 0.68rem;
+  }
+
+  .signin-btn {
+    padding: 7px 12px;
+    font-size: 0.72rem;
+  }
+
+  .landing-content {
+    padding: 20px 16px 35px;
+  }
+
+  .hero-badge {
+    margin-bottom: 18px;
+    padding: 7px 12px;
+    font-size: 0.62rem;
+  }
+
+  .hero-title {
+    font-size: 2.55rem;
+    line-height: 1.08;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: min(100%, 280px);
+  }
+}
+
+@media (max-width: 400px) {
+  .landing-brand {
+    font-size: 0.88rem;
+  }
+
+  .signin-files,
+  .signin-btn {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+}
+
+/* =========================================================
+   FORCE OVERRIDE FOR PRIMARY BUTTON (FIX CUT/CONFLICT)
+   ========================================================= */
+
+body .landing-container .hero-actions .primary-btn {
+  background: #0f766e !important;
+  background-color: #0f766e !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 10px 25px rgba(15, 118, 110, 0.5) !important;
+}
+
+body .landing-container.doctor-mode .hero-actions .primary-btn {
+  background: #1e40af !important;
+  background-color: #1e40af !important;
+  background-image: none !important;
+  box-shadow: 0 10px 25px rgba(30, 64, 175, 0.5) !important;
+}

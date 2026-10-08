@@ -1,0 +1,304 @@
+/* =========================================
+   PREDICTION PAGE STYLING - FULLY DYNAMIC & TEAL
+   ========================================= */
+
+.prediction-page {
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 16px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- PATIENT MODE COLORS & ACCENTS (TEAL THEME) --- */
+.prediction-page.patient-mode .prediction-header {
+  border-left-color: #0d9f9a;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+  border-color: #ccfbf1;
+}
+
+.prediction-page.patient-mode .heading-title-box h1 {
+  color: #0f766e;
+}
+
+.prediction-page.patient-mode .card-title-row h2 {
+  color: #0f766e;
+}
+
+.prediction-page.patient-mode .submit-btn {
+  background: linear-gradient(135deg, #0f766e 0%, #0d9f9a 100%);
+  box-shadow: 0 3px 10px rgba(13, 159, 154, 0.25);
+}
+
+.prediction-page.patient-mode .submit-btn:hover:not(:disabled) {
+  box-shadow: 0 4px 14px rgba(13, 159, 154, 0.4);
+}
+
+.prediction-page.patient-mode .preset-card-box:hover {
+  border-color: #0d9f9a;
+  box-shadow: 0 4px 10px rgba(13, 159, 154, 0.15);
+}
+
+.prediction-page.patient-mode .disease-select-dropdown:focus {
+  border-color: #0d9f9a;
+  box-shadow: 0 0 0 3px rgba(13, 159, 154, 0.15);
+}
+
+.prediction-page.patient-mode .input-field-group input:focus,
+.prediction-page.patient-mode .input-field-group select:focus {
+  border-color: #0d9f9a;
+  box-shadow: 0 0 0 3px rgba(13, 159, 154, 0.15);
+}
+
+
+/* --- DOCTOR MODE COLORS & ACCENTS --- */
+.prediction-page.doctor-mode .prediction-header {
+  border-left-color: #4f46e5;
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+.prediction-page.doctor-mode .heading-title-box h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--theme-dark, #1d4ed8);
+  letter-spacing: -0.02em;
+}
+
+.prediction-page.doctor-mode .submit-btn {
+  background: linear-gradient(135deg, #312e81 0%, #4f46e5 100%);
+  box-shadow: 0 3px 10px rgba(79, 70, 229, 0.25);
+}
+
+.prediction-page.doctor-mode .submit-btn:hover:not(:disabled) {
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+}
+
+
+/* Header Container: Forces Title Left & Dropdown Right on the SAME Line */
+.prediction-header {
+  margin-bottom: 20px;
+  padding: 16px 22px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  border-left-width: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 16px;
+}
+
+.heading-title-box {
+  flex: 0 1 auto;
+}
+
+.heading-title-box h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Preset Dropdown Container (Right Side & Interactive) */
+.preset-card-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #94a3b8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.preset-card-box:hover {
+  border-color: #0f172a;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+}
+
+.preset-label {
+  font-weight: 700;
+  color: #0A1128 !important;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.disease-select-dropdown {
+  width: 220px;
+  padding: 6px 10px;
+  border: 1px solid #64748b;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background: #f8fafc;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.disease-select-dropdown:hover {
+  background: #ffffff;
+  border-color: #0f172a;
+}
+
+.disease-select-dropdown:focus {
+  border-color: #0d9f9a;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(13, 159, 154, 0.15);
+}
+
+/* Toast Banner */
+.toast-banner {
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.toast-banner.success {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #dcfce7;
+}
+
+.toast-banner.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+/* Form Cards & Grid */
+.form-card {
+  background: #ffffff;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.02);
+}
+
+.card-title-row h2 {
+  margin: 0 0 14px 0;
+  font-size: 1.05rem;
+  color: #034078;
+  font-weight: 700;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.input-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-field-group label {
+  font-weight: 600;
+  color: #0A1128;
+  font-size: 0.85rem;
+}
+
+.input-field-group input,
+.input-field-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font-size: 0.88rem;
+  background: #f8fafc;
+  color: #0A1128;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.input-field-group input:focus,
+.input-field-group select:focus {
+  border-color: #0d9f9a;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(13, 159, 154, 0.12);
+}
+
+.range-hint {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  padding: 10px 20px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.submit-btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loading-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ffffff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

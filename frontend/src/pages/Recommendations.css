@@ -1,0 +1,399 @@
+/* ==========================================
+   RECOMMENDATIONS PAGE - THEME CONFIGURATION
+========================================== */
+
+/* Default / Doctor Theme (Blue) */
+.recommendations-page {
+  --theme-color: #2563eb;
+  --theme-dark: #1d4ed8;
+  --theme-light: #eff6ff;
+  --theme-border: #bfdbfe;
+}
+
+/* Patient Theme Override (Teal) - Comprehensive Selectors */
+.recommendations-page.patient-theme,
+.recommendations-page.patient-mode,
+.patient-portal .recommendations-page,
+.patient-mode .recommendations-page,
+body.patient-portal .recommendations-page {
+  --theme-color: #0d9f9a !important;
+  --theme-dark: #0f766e !important;
+  --theme-light: #f0fdfa !important;
+  --theme-border: #ccfbf1 !important;
+}
+
+/* ==========================================
+   ANIMATIONS
+========================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(13, 159, 154, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(13, 159, 154, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(13, 159, 154, 0);
+  }
+}
+
+/* ==========================================
+   CONTAINER
+========================================== */
+
+.recommendations-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 28px;
+  box-sizing: border-box;
+  min-height: calc(100vh - 64px);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: background 0.3s ease;
+}
+
+/* ==========================================
+   HEADER BANNER
+========================================== */
+
+.recommendations-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: #ffffff !important;
+  padding: 30px 36px;
+  border-radius: 18px;
+  border: 1px solid var(--theme-border);
+  border-left: 6px solid var(--theme-color) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+}
+
+.header-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.confidence-pill {
+  background: var(--theme-light) !important;
+  color: var(--theme-dark) !important;
+  border: 1px solid var(--theme-border) !important;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  letter-spacing: 0.02em;
+}
+
+.recommendations-page .page-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--theme-color) !important; /* Forces Teal text on patient side */
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.recommendations-page .page-header p {
+  color: #475569;
+  font-size: 1.05rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.status-badge {
+  background: var(--theme-light) !important;
+  color: var(--theme-dark) !important;
+  border: 1px solid var(--theme-border) !important;
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 8px 18px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(13, 159, 154, 0.1);
+  animation: pulseGlow 2.5s infinite;
+}
+
+/* ==========================================
+   CARD
+========================================== */
+
+.recommendations-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 36px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.recommendations-card:hover {
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
+  border-color: var(--theme-color) !important;
+}
+
+/* ==========================================
+   CARD HEADER
+========================================== */
+
+.card-header {
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f1f5f9;
+  margin-bottom: 28px;
+}
+
+.card-header h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
+}
+
+.card-header small {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* ==========================================
+   LIST
+========================================== */
+
+.recommendations-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.recommendation-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 20px 24px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  opacity: 0;
+  animation: slideInLeft 0.4s ease forwards;
+  transition: all 0.25s ease;
+}
+
+.recommendation-item:hover {
+  background: #ffffff;
+  border-color: var(--theme-color) !important;
+  transform: translateX(6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.bullet-num {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--theme-dark) !important;
+  background: var(--theme-light) !important;
+  border: 1px solid var(--theme-border) !important;
+  padding: 8px 12px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.recommendation-item p {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+/* ==========================================
+   DISCLAIMER
+========================================== */
+
+.recommendation-disclaimer {
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  background: #fefce8;
+  border: 1px solid #fef08a;
+  border-radius: 12px;
+  color: #854d0e;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  box-shadow: 0 2px 8px rgba(133, 77, 14, 0.03);
+}
+
+/* ==========================================
+   ACTIONS
+========================================== */
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  padding-top: 24px;
+  border-top: 2px solid #f1f5f9;
+}
+
+.secondary-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+  background: #f8fafc;
+  color: var(--theme-dark) !important;
+  border-color: var(--theme-color) !important;
+  transform: translateY(-2px);
+}
+
+.primary-btn {
+  background: var(--theme-color) !important;
+  border: none;
+  color: #ffffff !important;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  background: var(--theme-dark) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 900px) {
+  .recommendations-page {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .recommendations-page {
+    padding: 16px;
+  }
+
+  .recommendations-page .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 22px;
+  }
+
+  .recommendations-page .page-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .recommendations-card {
+    padding: 20px;
+  }
+
+  .recommendation-item {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .recommendation-item p {
+    font-size: 0.95rem;
+  }
+
+  .card-actions {
+    flex-direction: column;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .status-badge {
+    align-self: flex-start;
+  }
+}
+
+/* ==========================================
+   PRINT
+========================================== */
+
+@media print {
+  .card-actions,
+  .status-badge,
+  .sidebar,
+  .app-navbar,
+  .global-chatbot {
+    display: none !important;
+  }
+
+  .recommendations-page {
+    padding: 0;
+    max-width: 100% !important;
+    background: white !important;
+  }
+
+  .recommendations-card {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .recommendation-item {
+    border: 1px solid #cbd5e1;
+    break-inside: avoid;
+    opacity: 1 !important;
+  }
+
+  .recommendation-disclaimer {
+    break-inside: avoid;
+  }
+}

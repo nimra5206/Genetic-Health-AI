@@ -1,0 +1,15 @@
+{
+  "short_name": "Genetic Health AI",
+  "name": "Genetic Health AI Assistant",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0d9f9a",
+  "background_color": "#f8fafc"
+}

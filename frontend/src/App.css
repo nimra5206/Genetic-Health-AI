@@ -1,0 +1,100 @@
+/* =========================================================
+   GLOBAL APP LAYOUT & THEME VARIABLES
+   ===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+
+body {
+  font-family: "Plus Jakarta Sans", Arial, sans-serif;
+  background: var(--page-bg, #f8fafc);
+  color: #0f172a;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Patient Portal Theme (Distinct Soft Medical Cyan & Blue Palette) */
+body[data-role="patient"] {
+  --primary-color: #0284c7;
+  --primary-hover: #0369a1;
+  --accent-bg: #e0f2fe;
+  --page-bg: #eef8ff; /* Patient ka distinct light blue/cyan background */
+  --nav-active-bg: #bae6fd;
+  --brand-gradient: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+  --navbar-border: #7dd3fc;
+  --role-primary: #0d9488;
+  --card-bg: transparent;
+  --border-color: #bae6fd;
+}
+
+/* Doctor Portal Theme (Deep Clinical Navy & Professional Slate Palette) */
+body[data-role="doctor"] {
+  --primary-color: #1e3a8a;
+  --primary-hover: #172554;
+  --accent-bg: #f8fafc;
+  --page-bg: #f8fafc; /* Doctor ka clean professional white/slate background */
+  --nav-active-bg: #eff6ff;
+  --brand-gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  --navbar-border: #cbd5e1;
+  --role-primary: #1e3a8a;
+  --card-bg: transparent;
+  --border-color: #cbd5e1;
+}
+
+.app-root {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--page-bg);
+  transition: background 0.3s ease;
+}
+
+/* =========================================================
+   PAGE CONTAINER
+   ========================================================= */
+
+.page-container {
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  padding: 28px 32px;
+  margin: 0;
+  background: var(--page-bg);
+  transition: background 0.3s ease;
+}
+
+.public-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}
+.page-container > * {
+  max-width: 100%;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .page-container {
+    padding: 22px 20px;
+    min-height: calc(100vh - 64px);
+  }
+}
+
+@media (max-width: 600px) {
+  .page-container {
+    padding: 16px 14px;
+  }
+}

@@ -1,0 +1,382 @@
+/* ==========================================
+   CONTAINER & DYNAMIC THEMES (Doctor & Patient)
+   ========================================= */
+.xai-page {
+  --xai-primary: #034078;
+  --xai-secondary: #1282A2;
+  --xai-dark: #0A1128;
+  --xai-light: #F1F9FF;
+  --xai-border: #cbd5e1;
+  --xai-card-bg: #FEFCFB;
+  --xai-summary-grad-start: #034078;
+  --xai-summary-grad-end: #1282A2;
+  --xai-summary-sub: #dbeafe;
+  --xai-confidence-color: #034078;
+  --xai-tag-bg: #eff6ff;
+  --xai-tag-color: #034078;
+  --xai-tag-border: #bfdbfe;
+  --xai-note-border: #034078;
+
+  padding: 32px;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  background-color: var(--xai-light);
+  transition: background-color 0.3s ease;
+}
+
+/* Patient Theme Override (Teal) */
+.xai-page.patient-theme,
+.patient-mode .xai-page,
+.patient-portal .xai-page {
+  --xai-primary: #0d9f9a;
+  --xai-secondary: #14967F;
+  --xai-dark: #0f766e;
+  --xai-light: #f0fdfa;
+  --xai-border: #ccfbf1;
+  --xai-card-bg: #FEFCFB;
+  --xai-summary-grad-start: #0b9994;
+  --xai-summary-grad-end: #087f7b;
+  --xai-summary-sub: #ccfbf1;
+  --xai-confidence-color: #0b9994;
+  --xai-tag-bg: #f0fdfa;
+  --xai-tag-color: #0d9f9a;
+  --xai-tag-border: #ccfbf1;
+  --xai-note-border: #0d9f9a;
+}
+
+/* Container Layout */
+.xai-page-inner {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Page Header */
+.page-heading {
+  margin-bottom: 24px;
+}
+
+.page-heading h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--xai-dark);
+  margin-bottom: 6px;
+}
+
+.page-heading p {
+  font-size: 15px;
+  color: #5d6e82;
+  margin: 0;
+}
+
+/* Summary Card */
+.xai-summary-card {
+  background: linear-gradient(135deg, var(--xai-summary-grad-start) 0%, var(--xai-summary-grad-end) 100%);
+  border-radius: 14px;
+  padding: 28px 32px;
+  color: #ffffff;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 20px rgba(3, 64, 120, 0.15);
+}
+
+.summary-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.summary-main h2 {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 4px 0;
+}
+
+.summary-subtext {
+  font-size: 14px;
+  color: var(--xai-summary-sub);
+  margin: 0;
+}
+
+.confidence-pill-box {
+  background: #ffffff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.confidence-score {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--xai-confidence-color);
+  line-height: 1;
+}
+
+.confidence-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Grid Layout */
+.xai-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.xai-card {
+  background: var(--xai-card-bg);
+  border: 1px solid var(--xai-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.card-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--xai-dark);
+  margin: 0 0 4px 0;
+}
+
+.card-subtext {
+  font-size: 13px;
+  color: #71839a;
+  margin: 0;
+}
+
+.info-tag {
+  background: var(--xai-tag-bg);
+  color: var(--xai-tag-color);
+  border: 1px solid var(--xai-tag-border);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Factor Items & Progress Bars */
+.factor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.factor-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.factor-top-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.factor-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.factor-val {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.factor-metrics {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.status-badge.high {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.status-badge.normal {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.impact-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--xai-dark);
+  min-width: 45px;
+  text-align: right;
+}
+
+.bar-track {
+  height: 8px;
+  width: 100%;
+  background: #f1f5f9;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+.high-fill {
+  background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+}
+
+.low-fill {
+  background: linear-gradient(90deg, var(--xai-primary) 0%, var(--xai-secondary) 100%);
+}
+
+/* Side Stack */
+.side-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.side-stack h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--xai-dark);
+  margin: 0 0 10px 0;
+}
+
+.card-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.xai-bullets {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.xai-bullets li {
+  font-size: 12.5px;
+  color: #334155;
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.audit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13px;
+}
+
+.audit-row:last-child {
+  border-bottom: none;
+}
+
+.audit-row span {
+  color: #64748b;
+}
+
+.audit-row strong {
+  color: var(--xai-dark);
+  font-size: 12px;
+}
+
+/* Disclaimer Banner */
+.xai-note-banner {
+  background: var(--xai-card-bg);
+  border: 1px solid var(--xai-border);
+  border-left: 4px solid var(--xai-note-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.note-icon {
+  font-size: 20px;
+}
+
+.xai-note-banner p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ==========================================
+    MOBILE RESPONSIVENESS FIXES
+    ========================================== */
+@media (max-width: 768px) {
+  .xai-page {
+    padding: 16px !important;
+  }
+
+  .summary-main {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  .confidence-pill-box {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .xai-grid {
+    grid-template-columns: 1-fr !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .card-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .xai-note-banner {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+}
