@@ -152,7 +152,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 className={linkClass}
                 onClick={closeSidebar}
               >
-                <span>Explainable AI</span>
+           <span>Clinical Reasoning</span>
               </NavLink>
 
               <NavLink

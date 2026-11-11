@@ -19,6 +19,7 @@ import Dashboard from "./pages/Dashboard";
 
 import NewPrediction from "./pages/NewPrediction";
 import PredictionResult from "./pages/PredictionResult";
+import DoctorPredictionResult from "./pages/DoctorPredictionResult";
 
 import Recommendations from "./pages/Recommendations";
 import DiseaseExplorer from "./pages/DiseaseExplorer";
@@ -29,6 +30,7 @@ import InheritanceAnalysis from "./pages/InheritanceAnalysis";
 import PatientProfile from "./pages/PatientProfile";
 
 import "./App.css";
+import "./mobile.css";
 
 function App() {
   const location = useLocation();
@@ -89,15 +91,21 @@ function App() {
     document.body.setAttribute("data-role", role);
   }, [role]);
 
+  // Doctor ko doctor wala result page, patient ko patient wala. Ek hi route, role se page chunta hai.
+  const ResultsPage =
+    String(role).toLowerCase() === "doctor"
+      ? DoctorPredictionResult
+      : PredictionResult;
+
   return (
     <div className="app-root">
 
       {/* ================= NAVBAR ================= */}
-      {!isPublicRoute && (
+     {!isPublicRoute && (
         <Navbar
           role={role}
           user={user}
-          setRole={setRole}
+        /*  setRole={setRole}*/
         />
       )}
 
@@ -139,6 +147,12 @@ function App() {
             }
           />
 
+          {/* Purane links ke liye */}
+          <Route
+            path="/doctor-dashboard"
+            element={<Navigate to="/dashboard" replace />}
+          />
+
           {/* ================= PREDICTION ================= */}
 
           <Route
@@ -150,10 +164,45 @@ function App() {
             }
           />
 
-          {/* ================= RESULTS ================= */}
+          <Route
+            path="/new-prediction"
+            element={<Navigate to="/prediction" replace />}
+          />
 
-       
-<Route path="/prediction-results" element={<ProtectedRoute><PredictionResult /></ProtectedRoute>} />
+          <Route
+            path="/predict"
+            element={<Navigate to="/prediction" replace />}
+          />
+
+          {/* ================= RESULTS ================= */}
+          {/* Teeno path ek hi result page kholte hain (role ke mutabiq) */}
+
+          <Route
+            path="/results"
+            element={
+              <ProtectedRoute>
+                <ResultsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/doctor-results"
+            element={
+              <ProtectedRoute>
+                <ResultsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/prediction-results"
+            element={
+              <ProtectedRoute>
+                <ResultsPage />
+              </ProtectedRoute>
+            }
+          />
 
           {/* ================= RECOMMENDATIONS ================= */}
 

@@ -1,0 +1,624 @@
+/* =========================================================
+   mobile.css  --  SIRF PHONE KE LIYE (v2: saare pages)
+   Poori file @media ke andar hai, is liye laptop/desktop ki
+   UI mein koi tabdeeli nahi hoti. Backend se koi talluq nahi.
+   App.jsx mein "./App.css" ke BAAD import karein.
+   ========================================================= */
+
+/* =========================================================
+   1. POORE APP KE LIYE (tablet + phone)
+   ========================================================= */
+@media (max-width: 768px) {
+  /* Dark patti fix: phone dark mode mein html ka background dark tha */
+  html {
+    background: #f8fafc;
+  }
+
+  /* Koi cheez screen se bahar nikle to poora page zoom-out na ho */
+  .app-root {
+    overflow-x: clip;
+  }
+
+  /* Chatbot ke gol button ke liye neeche jagah */
+  .page-container {
+    padding-bottom: 96px;
+  }
+
+  /* Headings ki lines aapas mein chipak jati thin */
+  .page-container h1,
+  .page-container h2 {
+    line-height: 1.25;
+  }
+}
+
+/* =========================================================
+   2. HAR PAGE KE INLINE-STYLE GRIDS (phone)
+   Result pages aur Explainable page inline "repeat(3, 1fr)",
+   "1fr 1fr", "2fr 1fr" use karte hain. Phone par sab 1 column.
+   ========================================================= */
+@media (max-width: 700px) {
+  .page-container div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Inline flex-wrap wali button rows: har button poori chaudai mein */
+  .page-container div[style*="flex-wrap: wrap"] > button {
+    flex: 1 1 100%;
+  }
+}
+
+/* =========================================================
+   3. NAVBAR (phone)
+   ========================================================= */
+@media (max-width: 700px) {
+  .app-navbar {
+    padding: 0 10px;
+    height: 60px;
+    gap: 8px;
+  }
+
+  .navbar-left {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .brand-title {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .navbar-right {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .role-switch {
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+
+  .profile-button {
+    padding: 4px 8px 4px 4px;
+    gap: 6px;
+  }
+
+  .profile-name {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-title {
+    font-size: 12px;
+  }
+  .role-switch {
+    display: none;
+  }
+}
+
+/* =========================================================
+   4. LANDING PAGE (phone)
+   ========================================================= */
+@media (max-width: 768px) {
+  .clean-nav {
+    height: auto;
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .brand-name {
+    font-size: 18px;
+  }
+
+  .clean-nav-right {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .role-switch button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .signup-btn {
+    padding: 8px 14px;
+  }
+
+  .clean-hero {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px 16px;
+    min-height: auto;
+  }
+
+  .clean-hero > * {
+    min-width: 0;
+  }
+
+  .clean-img-wrapper {
+    height: 260px;
+  }
+
+  .clean-text-side h1 {
+    font-size: 30px;
+  }
+
+  .btn-group {
+    flex-wrap: wrap;
+  }
+}
+
+/* =========================================================
+   5. DASHBOARD (phone)
+   ========================================================= */
+@media (max-width: 700px) {
+  .dashboard-container {
+    padding: 0 0 8px;
+    gap: 16px;
+  }
+
+  .dashboard-header-flex {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .dashboard-header-flex h1 {
+    font-size: 1.5rem !important;
+    line-height: 1.25 !important;
+    margin: 0 !important;
+  }
+
+  .dashboard-header-flex .primary-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* 3 stat cards: pehla poori chaudai, baqi do aamne saamne */
+  .dashboard-stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .dashboard-stats-grid .dash-stat-card:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .dash-stat-card {
+    padding: 14px;
+  }
+
+  .dash-stat-card h2 {
+    font-size: 1.7rem;
+  }
+
+  .dash-stat-card span {
+    font-size: 0.68rem;
+  }
+
+  .dash-box {
+    padding: 14px;
+  }
+
+  /* Assessment row: pehli line mein avatar + naam, doosri mein badges */
+  .dash-assessment-row {
+    flex-wrap: wrap;
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .row-info {
+    flex: 1 1 calc(100% - 60px);
+  }
+
+  .row-info h4 {
+    white-space: normal;
+  }
+
+  .row-badges {
+    width: 100%;
+    padding-left: 52px;
+  }
+}
+
+/* =========================================================
+   6. NEW PREDICTION (phone)
+   ========================================================= */
+@media (max-width: 700px) {
+  .prediction-page {
+    padding: 8px 0;
+  }
+
+  .prediction-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    flex-wrap: wrap !important;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .heading-title-box h1,
+  .prediction-page.doctor-mode .heading-title-box h1,
+  .prediction-page.patient-mode .heading-title-box h1 {
+    white-space: normal;
+    font-size: 1.3rem;
+    line-height: 1.25;
+  }
+
+  .preset-card-box {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .preset-label {
+    white-space: normal;
+  }
+
+  .disease-select-dropdown {
+    width: 100%;
+  }
+
+  .form-card {
+    padding: 16px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* 16px se kam font par phone input par zoom kar dete hain */
+  .input-field-group input,
+  .input-field-group select {
+    font-size: 16px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions .cancel-btn,
+  .form-actions .submit-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+/* =========================================================
+   7. RESULT PAGES: Doctor + Patient (phone)
+   ========================================================= */
+@media (max-width: 700px) {
+  .result-page {
+    padding: 12px 0;
+  }
+
+  .result-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .result-header h1 {
+    font-size: 1.35rem;
+    line-height: 1.25;
+  }
+
+  .result-status {
+    align-self: flex-start;
+  }
+
+  .result-card {
+    padding: 16px;
+  }
+
+  /* "Clinical Reasoning" banner: text upar, button neeche */
+  .xai-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .xai-btn {
+    width: 100%;
+  }
+
+  /* Lists mein text left se shuru ho (centered padhna mushkil tha) */
+  .rec-list li,
+  .factor-list li {
+    text-align: left;
+  }
+
+  .result-buttons {
+    flex-direction: column;
+  }
+
+  .result-buttons button {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   8. HISTORY + TABS (phone)
+   ========================================================= */
+@media (max-width: 700px) {
+  .history-page {
+    padding: 8px 0;
+  }
+
+  .history-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 18px 16px;
+  }
+
+  .history-header h1 {
+    font-size: 1.5rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .new-prediction-btn {
+    width: 100%;
+  }
+
+  .filter-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .history-search {
+    margin-left: 0;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .tab-btn {
+    padding: 8px 12px !important;
+    font-size: 0.82rem !important;
+  }
+
+  /* Table kat'ne ki bajaye side par scroll hogi */
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .interactive-table {
+    min-width: 560px;
+  }
+
+  .interactive-table th,
+  .disorder-cell,
+  .date-cell,
+  .actions-cell {
+    padding: 12px 14px;
+  }
+}
+
+/* =========================================================
+   9. DISEASE EXPLORER (phone)
+   ========================================================= */
+@media (max-width: 700px) {
+  .explorer-container {
+    padding: 12px 0;
+  }
+
+  .explorer-header h1 {
+    font-size: 1.6rem;
+    line-height: 1.25;
+  }
+
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-content {
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 18px;
+  }
+}
+
+/* =========================================================
+   10. INHERITANCE ANALYSIS (phone)
+   ========================================================= */
+@media (max-width: 700px) {
+  .inheritance-page {
+    padding: 12px 0 !important;
+  }
+
+  .inheritance-header h1 {
+    font-size: 1.6rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .card {
+    padding: 16px !important;
+  }
+
+  .card-header {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .punnett-grid {
+    gap: 10px !important;
+  }
+
+  .punnett-cell {
+    padding: 12px !important;
+  }
+
+  .cell-genotype {
+    font-size: 22px !important;
+  }
+
+  .legend-box {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .detail-card {
+    padding: 16px !important;
+  }
+}
+
+/* =========================================================
+   11. CHATBOT (phone)
+   ========================================================= */
+@media (max-width: 700px) {
+  .chatbot-trigger-btn {
+    width: 54px;
+    height: 54px;
+    bottom: 16px;
+    right: 16px;
+  }
+
+  /* Phone ke browser mein 100vh address bar ke peeche chala jata hai */
+  .chatbot-drawer-container {
+    height: 100dvh;
+  }
+
+  .chat-text-input {
+    font-size: 16px;
+  }
+}
+
+/* =========================================================
+   12. OVERFLOW FIX (Explainable + Result pages) -- v3
+   Masla: inline grid "2fr 1fr" / "1fr" apni content ki chaudai
+   se phail kar screen ke right side se bahar nikal jata tha.
+   minmax(0, 1fr) column ko screen ke andar rokta hai.
+   ========================================================= */
+@media (max-width: 700px) {
+  html,
+  body {
+    max-width: 100%;
+  }
+
+  .page-container {
+    overflow-wrap: break-word;
+  }
+
+  .page-container div[style*="grid-template-columns"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .page-container div[style*="grid-template-columns"] > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Inline cards ki padding kam (page lamba na lage) */
+  .page-container div[style*="padding: 20px"] {
+    padding: 14px !important;
+  }
+
+  /* Page ka sab se bahar wala dabba: page-container pehle hi padding deta hai */
+  .page-container > div[style*="padding: 20px"] {
+    padding: 8px 0 !important;
+  }
+
+  /* Explainable ka upar wala neela banner: score box wrap ho jaye */
+  .page-container div[style*="justify-content: space-between"][style*="align-items: center"][style*="border-radius: 12px"] {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+/* =========================================================
+   13. RESULT PAGES -- chhota aur compact (phone)
+   ========================================================= */
+@media (max-width: 700px) {
+  .result-grid,
+  .analysis-section,
+  .recommendations-grid {
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  /* Upar ke 3 cards: pehla poori chaudai, baqi do saath saath */
+  .result-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .result-grid .main-result {
+    grid-column: 1 / -1;
+  }
+
+  .result-card h2 {
+    font-size: 18px;
+  }
+
+  .rec-list li {
+    padding: 6px 8px;
+  }
+
+  /* Touch par hover wali animation atak jati hai */
+  .result-card:hover,
+  .recommendation-card:hover,
+  .compact-card:hover,
+  .dash-assessment-row:hover,
+  .dash-stat-card:hover {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   14. PATIENT PROFILE (phone)
+   ========================================================= */
+@media (max-width: 700px) {
+  .profile-page .page-heading {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .profile-page .primary-action-btn {
+    width: 100%;
+  }
+
+  .profile-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+  }
+
+  .profile-card {
+    padding: 16px;
+  }
+
+  .profile-card .info-row,
+  .profile-card .info-item {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .symptom-list {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+:root {
+  color-scheme: light;
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #fff;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+}
+ 
+/* Chatbot ke message box ka text: hamesha kala, background halka */
+.chat-text-input {
+  color: #0f172a;
+  background: #f8fafc;
+  -webkit-text-fill-color: #0f172a;
+}
+ 
+.chat-text-input::placeholder {
+  color: #94a3b8;
+  -webkit-text-fill-color: #94a3b8;
+}

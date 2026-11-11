@@ -1,152 +1,58 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 
-function LandingPage() {
+export default function LandingPage() {
+  const [isDoctor, setIsDoctor] = useState(true);
   const navigate = useNavigate();
 
-  const [role, setRole] = useState(() => {
-    return (localStorage.getItem("role") || "patient").toLowerCase();
-  });
-
-  useEffect(() => {
-    localStorage.setItem("role", role);
-    document.body.setAttribute("data-role", role);
-  }, [role]);
-
-  const isDoctor = role === "doctor";
-
-  const handleStartAssessment = () => {
-    const isLoggedIn =
-      localStorage.getItem("isLoggedIn") === "true" ||
-      localStorage.getItem("access");
-
-    if (!isLoggedIn) {
-      navigate("/login");
-    } else {
-      navigate("/prediction");
-    }
-  };
+  // Button Functions
+  const goToLogin = () => navigate("/login");
+  const goToSignup = () => navigate("/signup"); // ya /select-user agar tumhara route ye hai
+  const goToCreateAccount = () => navigate("/signup");
 
   return (
-    <div
-      className={`landing-container ${
-        isDoctor ? "doctor-mode" : "patient-mode"
-      }`}
-    >
-      {/* Soft blue glow */}
-      <div className="landing-glow landing-glow-one"></div>
-      <div className="landing-glow landing-glow-two"></div>
-
-      {/* =====================================================
-          NAVBAR
-          ===================================================== */}
-      <nav className="landing-navbar">
-        <div
-          className="landing-brand"
-          onClick={() => navigate("/")}
-        >
-          Genetic Health AI
-        </div>
-
-        <div className="landing-nav-right">
-
-          {/* Portal Mode */}
-          <div className="portal-switch">
-            <span className="portal-label">
-              Portal Mode
-            </span>
-
-            <div className="role-switch">
-              <button
-                type="button"
-                className={`role-btn ${
-                  !isDoctor ? "active" : ""
-                }`}
-                onClick={() => setRole("patient")}
-              >
-                Patient
-              </button>
-
-              <button
-                type="button"
-                className={`role-btn ${
-                  isDoctor ? "active" : ""
-                }`}
-                onClick={() => setRole("doctor")}
-              >
-                Doctor
-              </button>
-            </div>
+    <div className={`clean-wrapper ${isDoctor ? "doctor-theme" : "patient-theme"}`}>
+      <nav className="clean-nav">
+        <span className="brand-name" onClick={() => navigate("/")} style={{cursor:'pointer'}}>GENETICHEALTH AI</span>
+        <div className="clean-nav-right">
+          <div className="role-switch">
+            <button className={!isDoctor ? "active" : ""} onClick={() => setIsDoctor(false)}>Patient</button>
+            <button className={isDoctor ? "active" : ""} onClick={() => setIsDoctor(true)}>Doctor</button>
           </div>
-
-          {/* Sign In */}
-          <button
-            className="signin-btn"
-            onClick={() => navigate("/login")}
-          >
-            Sign In
-          </button>
+          <button className="login-btn" onClick={goToLogin}>Log In</button>
+          <button className="signup-btn" onClick={goToSignup}>Sign Up</button>
         </div>
       </nav>
 
-      {/* =====================================================
-          HERO
-          ===================================================== */}
-      <main className="landing-content">
-        <section className="hero-section">
+      <div className="clean-hero">
+        <div className="clean-img-wrapper">
+          <img src={isDoctor ? "/doctor-genetic.jpg" : "/patient-genetic.jpg"} alt="Genetic Health AI" />
+        </div>
 
-          {/* Small heading */}
-          <div className="hero-badge">
-            <span className="badge-dot"></span>
+        <div className="clean-text-side">
+          <div className="ai-badge">
+            <span className="ai-dot"></span>
+            AI-POWERED HEALTHCARE
+          </div>
 
+          <h1>{isDoctor ? "Clinical Intelligence for Precision Care." : "Understand Your Health, Genetically."}</h1>
+          <p>
             {isDoctor
-              ? "Clinical Genetics"
-              : "Genomic Health"}
-          </div>
+              ? "AI-powered genomic analysis for clinical decision support and patient risk stratification. Get real-time variant analysis, ACMG classification, and evidence-based recommendations."
+              : "Get personalized insights into your genetic health. Upload your data securely, understand your risks, and take proactive steps with AI-powered guidance."}
+          </p>
 
-          {/* Main heading */}
-          <h1 className="hero-title">
-            {isDoctor ? (
-              <>
-                Genetic Risk
-                <br />
-                <span>Insights</span>
-              </>
-            ) : (
-              <>
-                Your Genetic
-                <br />
-                <span>Insights</span>
-              </>
-            )}
-          </h1>
-
-          {/* Buttons */}
-          <div className="hero-actions">
-            <button
-              className="primary-btn"
-              onClick={handleStartAssessment}
-            >
-              {isDoctor
-                ? "Launch Assessment"
-                : "Start Screening"}
-
-              <span>→</span>
+          <div className="btn-group">
+            <button className="btn-main" onClick={goToLogin}>
+              {isDoctor ? "Launch Assessment" : "Start Screening"}
             </button>
-
-            <button
-              className="secondary-btn"
-              onClick={() => navigate("/login")}
-            >
-              Explore Platform
+            <button className="btn-outline" onClick={goToCreateAccount}>
+              Get Started
             </button>
           </div>
-
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   );
 }
-
-export default LandingPage;

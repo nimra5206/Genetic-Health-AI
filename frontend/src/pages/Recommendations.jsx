@@ -10,7 +10,8 @@ function Recommendations() {
 
   try {
     user = JSON.parse(localStorage.getItem("user") || "{}");
-    lastPrediction = JSON.parse(localStorage.getItem("lastPrediction") || "{}");
+    const uid = String(user.id ?? user.email ?? user.username ?? user.name ?? "anon").toLowerCase();
+    lastPrediction = JSON.parse(localStorage.getItem(`gh_last_prediction:${uid}`) || "{}");
   } catch (error) {
     console.error("Error reading localStorage:", error);
   }
@@ -31,8 +32,11 @@ function Recommendations() {
     "Genetic Health Assessment";
 
   const rawConfidence =
-    lastPrediction.confidence ||
-    lastPrediction.probability ||
+    lastPrediction.confidence_value ??
+    (typeof lastPrediction.confidence === "string"
+      ? parseFloat(lastPrediction.confidence.replace("%", ""))
+      : lastPrediction.confidence) ??
+    lastPrediction.probability ??
     null;
 
   let formattedConfidence = null;

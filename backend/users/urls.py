@@ -1,7 +1,7 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from .views import RegisterView, LoginView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/predictions/', include('predictions.urls')),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('login-custom/', LoginView.as_view(), name='login-custom'),
 ]

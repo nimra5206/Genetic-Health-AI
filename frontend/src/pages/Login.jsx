@@ -27,9 +27,10 @@ function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+      body: JSON.stringify({
           username: form.username,
           password: form.password,
+          role: form.role,
         }),
       });
 
@@ -40,16 +41,22 @@ function Login() {
         localStorage.setItem("refresh", data.refresh);
         
         localStorage.setItem(
-          "user",
-          JSON.stringify({
-            username: form.username,
-            role: form.role,
-          })
-        );
+  "user",
+  JSON.stringify({
+    id: data.id,
+    username: data.username || form.username,
+    email: data.email,
+    role: data.role || form.role,
+  })
+);
+
+localStorage.setItem("role", data.role || form.role);
+
+        window.dispatchEvent(new Event("rolechange"));
 
         navigate("/dashboard");
       } else {
-        alert("Login failed. Check username and password.");
+        alert(data.detail || "Login failed. Check username and password.");
       }
     } catch (error) {
       alert("Backend connection error.");

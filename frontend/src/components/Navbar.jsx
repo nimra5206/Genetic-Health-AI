@@ -1,13 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  NavLink,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import "./Navbar.css";
 
-function Navbar({ role, user, setRole }) {
+function Navbar({ role, user }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,11 +13,9 @@ function Navbar({ role, user, setRole }) {
   const menuRef = useRef(null);
   const profileRef = useRef(null);
 
-  const currentRole =
-    role ||
-    localStorage.getItem("role") ||
-    user?.role ||
-    "patient";
+  const currentRole = String(
+    role || localStorage.getItem("role") || user?.role || "patient"
+  ).toLowerCase();
 
   const isDoctor = currentRole === "doctor";
 
@@ -45,7 +39,7 @@ function Navbar({ role, user, setRole }) {
     { label: "Patient History", path: "/history" },
     { label: "Recommendations", path: "/recommendations" },
     { label: "Disease Explorer", path: "/disease-explorer" },
-    { label: "Why This Result?", path: "/explainable-ai" },
+    { label: "Clinical Reasoning", path: "/explainable-ai" },
     { label: "Inheritance", path: "/inheritance-analysis" },
   ];
 
@@ -66,17 +60,11 @@ function Navbar({ role, user, setRole }) {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target)
-      ) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
         setMenuOpen(false);
       }
 
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(event.target)
-      ) {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
         setProfileOpen(false);
       }
     };
@@ -88,53 +76,6 @@ function Navbar({ role, user, setRole }) {
   }, []);
 
   /* =====================================================
-     ROLE SWITCH
-     ===================================================== */
-
-  const handleRoleChange = () => {
-    const newRole =
-      currentRole === "doctor" ? "patient" : "doctor";
-
-    localStorage.setItem("role", newRole);
-
-    try {
-      const savedUser = JSON.parse(
-        localStorage.getItem("user") || "{}"
-      );
-      savedUser.role = newRole;
-      localStorage.setItem("user", JSON.stringify(savedUser));
-    } catch {
-      // Ignore malformed local user data
-    }
-
-    setRole(newRole);
-    window.dispatchEvent(new Event("rolechange"));
-
-    setProfileOpen(false);
-    setMenuOpen(false);
-
-    if (
-      newRole === "patient" &&
-      [
-        "/prediction-results",
-        "/explainable-ai",
-        "/inheritance-analysis",
-      ].includes(location.pathname)
-    ) {
-      navigate("/dashboard");
-      return;
-    }
-
-    if (
-      newRole === "doctor" &&
-      location.pathname === "/patient-profile"
-    ) {
-      navigate("/dashboard");
-      return;
-    }
-  };
-
-  /* =====================================================
      LOGOUT
      ===================================================== */
 
@@ -144,6 +85,7 @@ function Navbar({ role, user, setRole }) {
     localStorage.removeItem("user");
     localStorage.removeItem("role");
     localStorage.removeItem("lastPrediction");
+    window.dispatchEvent(new Event("rolechange"));
 
     setProfileOpen(false);
     setMenuOpen(false);
@@ -152,9 +94,7 @@ function Navbar({ role, user, setRole }) {
   };
 
   const displayName =
-    user?.name ||
-    user?.username ||
-    (isDoctor ? "Doctor" : "Patient");
+    user?.name || user?.username || (isDoctor ? "Doctor" : "Patient");
 
   const initials = displayName
     .split(" ")
@@ -169,7 +109,7 @@ function Navbar({ role, user, setRole }) {
       <div className="navbar-left">
         <NavLink to="/dashboard" className="navbar-brand">
           <div className="brand-text">
-            <span className="brand-title">Genetic Health AI</span>
+            <span className="brand-title">GENETICHEALTH AI</span>
           </div>
         </NavLink>
       </div>
@@ -180,9 +120,7 @@ function Navbar({ role, user, setRole }) {
           <NavLink
             key={`${link.label}-${link.path}`}
             to={link.path}
-            className={({ isActive }) =>
-              `nav-link ${isActive ? "active" : ""}`
-            }
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           >
             <span>{link.label}</span>
           </NavLink>
@@ -191,18 +129,10 @@ function Navbar({ role, user, setRole }) {
 
       {/* RIGHT SIDE */}
       <div className="navbar-right">
-        {/* Role Switch */}
-        <button
-          type="button"
-          className="role-switch"
-          onClick={handleRoleChange}
-          title="Switch user role"
-        >
-          <span className="role-switch-label">
-            {isDoctor ? "Doctor" : "Patient"}
-          </span>
-          <span className="role-switch-icon">⇄</span>
-        </button>
+        {/* Role label (read-only) */}
+        <span className="role-switch" title="Your account role">
+          <span className="role-switch-label">{isDoctor ? "Doctor" : "Patient"}</span>
+        </span>
 
         {/* Profile */}
         <div className="profile-wrapper" ref={profileRef}>
@@ -227,14 +157,6 @@ function Navbar({ role, user, setRole }) {
                   My Profile
                 </NavLink>
               )}
-
-              <button
-                type="button"
-                className="dropdown-item"
-                onClick={handleRoleChange}
-              >
-                Switch to {isDoctor ? "Patient" : "Doctor"}
-              </button>
 
               <button
                 type="button"
@@ -275,19 +197,8 @@ function Navbar({ role, user, setRole }) {
                 </NavLink>
               ))}
 
-              <button
-                type="button"
-                className="mobile-nav-action"
-                onClick={handleRoleChange}
-              >
-                Switch to {isDoctor ? "Patient" : "Doctor"}
-              </button>
-
               {!isDoctor && (
-                <NavLink
-                  to="/patient-profile"
-                  className="mobile-nav-link"
-                >
+                <NavLink to="/patient-profile" className="mobile-nav-link">
                   My Profile
                 </NavLink>
               )}

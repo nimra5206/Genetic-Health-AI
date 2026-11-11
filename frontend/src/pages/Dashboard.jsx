@@ -3,22 +3,97 @@ import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../config";
 import "./Dashboard.css";
 
+/* ---------- helpers (isi file mein, alag file ki zaroorat nahi) ---------- */
+const DISEASE_LIST = [
+  "Thalassemia",
+  "Hemophilia",
+  "Breast Cancer",
+  "Sickle Cell Anemia",
+  "Cystic Fibrosis",
+];
+
+const normalizeDisease = (name) => {
+  const n = String(name || "").toLowerCase();
+  if (n.includes("thal")) return "Thalassemia";
+  if (n.includes("hemoph")) return "Hemophilia";
+  if (n.includes("breast") || n.includes("cancer")) return "Breast Cancer";
+  if (n.includes("sickle")) return "Sickle Cell Anemia";
+  if (n.includes("cystic") || n.includes("fibrosis")) return "Cystic Fibrosis";
+  return null;
+};
+
+// Har user ki alag storage key (doosre account ka data nahi aata)
+const currentUserId = () => {
+  try {
+    const u = JSON.parse(localStorage.getItem("user") || "{}");
+    return String(u.id ?? u.email ?? u.username ?? u.name ?? "anon").toLowerCase();
+  } catch {
+    return "anon";
+  }
+};
+
+const saveLastPrediction = (result) => {
+  try {
+    localStorage.setItem(`gh_last_prediction:${currentUserId()}`, JSON.stringify(result));
+  } catch {
+    /* ignore */
+  }
+};
+
+const getLocalHistory = () => {
+  try {
+    const list = JSON.parse(localStorage.getItem(`gh_history:${currentUserId()}`) || "[]");
+    return Array.isArray(list) ? list : [];
+  } catch {
+    return [];
+  }
+};
+
 function Dashboard({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
   const userObj = JSON.parse(localStorage.getItem("user") || "{}");
-  
-  const role = (userObj.role || userObj.user_type || "patient").toLowerCase();
+
+  const role = (userObj.role || userObj.user_type || localStorage.getItem("role") || "patient").toLowerCase();
   const isDoctor = role === "doctor";
-  
-  const currentUser = { 
-    name: userObj.username || userObj.name || 'User', 
+
+  const currentUser = {
+    name: userObj.username || userObj.name || "User",
     email: (userObj.email || "").trim().toLowerCase(),
-    id: userObj.id ? `#GH-${userObj.id}` : '#GH-2026-08' 
+    id: userObj.id ? `#GH-${userObj.id}` : "#GH-2026-08",
   };
 
   const [allAssessments, setAllAssessments] = useState([]);
 
-  // Backend se history fetch karne ka function
+  // Backend ki history ko dashboard/result pages ke format mein badalna
+  const toAssessment = (item, localById) => {
+    const disease = item.predicted_disease || "Unknown";
+    const conf = Number(item.confidence);
+    const extra = localById[String(item.id)] || {}; // probabilities / inputs agar isi browser mein maujood hon
+    return {
+      ...extra,
+      id: `#GH-${item.id}`,
+      predicted_disease: disease,
+      disease_code: item.disease_code,
+      title: `${disease} Screening`,
+      confidence: `${Number.isNaN(conf) ? "N/A" : conf.toFixed(1)}%`,
+      confidence_value: conf,
+      risk: item.risk_level || "Moderate",
+      risk_level: item.risk_level || "Moderate",
+      date: item.created_at || new Date().toLocaleDateString(),
+      patientName: item.patient_name || currentUser.name,
+    };
+  };
+
+  const loadFromLocalStorage = () => {
+    // Per-user local history (doosre account ka data nahi aata)
+    const local = getLocalHistory().map((h) => ({
+      ...h,
+      id: typeof h.id === "number" ? `#GH-${h.id}` : h.id,
+      title: h.predicted_disease ? `${h.predicted_disease} Screening` : h.title,
+    }));
+    setAllAssessments(local);
+  };
+
   const fetchHistoryFromBackend = async () => {
     try {
       const token = localStorage.getItem("access");
@@ -31,22 +106,17 @@ function Dashboard({ isOpen, setIsOpen }) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
         const data = await response.json();
-        // Backend data ko dashboard format mein map karna
-        const formattedData = data.map(item => ({
-          id: `#GH-${item.id}`,
-          title: item.predicted_disease ? `${item.predicted_disease} Screening` : "Genetic Panel Screening",
-          confidence: `${item.confidence || 90}%`,
-          risk: item.risk_level || "Moderate",
-          date: item.created_at || new Date().toLocaleDateString(),
-          patientName: item.patient_name || currentUser.name
-        }));
-        setAllAssessments(formattedData);
+        const localById = {};
+        getLocalHistory().forEach((h) => {
+          localById[String(h.id)] = h;
+        });
+        setAllAssessments(data.map((item) => toAssessment(item, localById)));
       } else {
         loadFromLocalStorage();
       }
@@ -56,90 +126,64 @@ function Dashboard({ isOpen, setIsOpen }) {
     }
   };
 
-  const loadFromLocalStorage = () => {
-    try {
-      const savedReports = localStorage.getItem('assessment_history');
-      if (savedReports) {
-        const parsed = JSON.parse(savedReports);
-        if (Array.isArray(parsed)) {
-          setAllAssessments(parsed);
-        }
-      }
-    } catch (e) {
-      console.error("Error parsing assessment history", e);
-    }
-  };
-
   useEffect(() => {
+    // Purani shared keys saaf (inhi mein purana stale result / doosre user ka data atka hota tha)
+    ["lastPrediction", "latestPrediction", "predictionResult", "latestInputs", "assessment_history"].forEach(
+      (k) => localStorage.removeItem(k)
+    );
     fetchHistoryFromBackend();
-    
-    const handleStorageChange = () => fetchHistoryFromBackend();
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const visibleAssessments = allAssessments;
 
-  const hasHighRisk = visibleAssessments.some(a => {
-    const isHigh = a.risk && a.risk.toLowerCase().includes('high');
-    const confNum = parseFloat((a.confidence || "0").replace('%', ''));
-    return isHigh || confNum > 70;
-  });
+  const isHighRisk = (a) => String(a.risk || a.risk_level || "").toLowerCase().includes("high");
 
   const totalCount = visibleAssessments.length;
-  const highRiskCount = visibleAssessments.filter(item => {
-    const isHigh = item.risk && item.risk.toLowerCase().includes("high");
-    const confNum = parseFloat((item.confidence || "0").replace('%', ''));
-    return isHigh || confNum > 70;
-  }).length;
-  
+  const highRiskCount = visibleAssessments.filter(isHighRisk).length;
+  const hasHighRisk = highRiskCount > 0;
   const normalCount = totalCount - highRiskCount;
 
-  const hemoThalCount = visibleAssessments.filter(item => {
-    const title = (item.title || "").toLowerCase();
-    return title.includes('hemophilia') || title.includes('thalassemia');
-  }).length;
-
-  const cysticCount = visibleAssessments.filter(item => {
-    const title = (item.title || "").toLowerCase();
-    return title.includes('cystic') || title.includes('fibrosis');
-  }).length;
-
-  const hemoThalPercent = totalCount > 0 ? Math.round((hemoThalCount / totalCount) * 100) : 0;
-  const cysticPercent = totalCount > 0 ? Math.round((cysticCount / totalCount) * 100) : 0;
+  // Saari 5 diseases ka distribution
+  const distribution = DISEASE_LIST.map((name) => {
+    const count = visibleAssessments.filter(
+      (a) => normalizeDisease(a.predicted_disease || a.title) === name
+    ).length;
+    return { name, count, percent: totalCount > 0 ? Math.round((count / totalCount) * 100) : 0 };
+  });
 
   return (
-    <div className={`dashboard-container ${isDoctor ? 'doctor-theme' : 'patient-theme'}`}>
-      
+    <div className={`dashboard-container ${isDoctor ? "doctor-theme" : "patient-theme"}`}>
+
       <div className="dashboard-header-flex">
         <div style={{ display: "flex", alignItems: "flex-start", gap: "14px" }}>
-          <h1>{isDoctor ? 'Clinical Dashboard' : `Welcome back, ${userObj.name || userObj.username || 'Patient'}`}</h1>
+          <h1>{isDoctor ? "Clinical Dashboard" : `Welcome back, ${userObj.name || userObj.username || "Patient"}`}</h1>
         </div>
-        <button className="primary-btn" onClick={() => navigate('/prediction')}>
-          <span>+</span> {isDoctor ? 'New Clinical Assessment' : 'Start New Screening'}
+        <button className="primary-btn" onClick={() => navigate("/prediction")}>
+          <span>+</span> {isDoctor ? "New Clinical Assessment" : "Start New Screening"}
         </button>
       </div>
 
       {/* Stats Grid */}
       <div className="dashboard-stats-grid">
         <div className="dash-stat-card">
-          <span>{isDoctor ? 'Total Assessments' : 'My Total Screenings'}</span>
+          <span>{isDoctor ? "Total Assessments" : "My Total Screenings"}</span>
           <h2>{totalCount}</h2>
-          <small>{isDoctor ? 'Patient logs processed' : 'Screenings performed'}</small>
+          <small>{isDoctor ? "Assessments you have run" : "Screenings performed"}</small>
         </div>
 
-        <div className={`dash-stat-card ${hasHighRisk ? 'alert-card' : ''}`}>
+        <div className={`dash-stat-card ${hasHighRisk ? "alert-card" : ""}`}>
           <span>High Risk Alerts</span>
           <h2>{highRiskCount}</h2>
-          <small className={hasHighRisk ? 'text-danger' : ''}>
-            {isDoctor ? 'Requires immediate clinician review' : 'Consult with your specialist'}
+          <small className={hasHighRisk ? "text-danger" : ""}>
+            {isDoctor ? "Requires clinician review" : "Consult with your specialist"}
           </small>
         </div>
 
         <div className="dash-stat-card">
-          <span>Normal / Low Risk</span>
+          <span>Moderate / Low Risk</span>
           <h2>{normalCount}</h2>
-          <small>{isDoctor ? 'Stable patient records' : 'Healthy screening markers'}</small>
+          <small>{isDoctor ? "Lower-confidence predictions" : "Lower-risk screenings"}</small>
         </div>
       </div>
 
@@ -147,39 +191,38 @@ function Dashboard({ isOpen, setIsOpen }) {
       <div className="dashboard-lower-grid">
         <div className="dash-box">
           <div className="dash-box-header">
-            <h3>{isDoctor ? 'Recent Clinical Assessments' : 'My Personal Assessments'}</h3>
-            <p>{isDoctor ? 'Latest AI diagnostic screening records' : 'Your recent screening history'}</p>
+            <h3>{isDoctor ? "Recent Clinical Assessments" : "My Personal Assessments"}</h3>
+            <p>{isDoctor ? "Your latest AI diagnostic screening records" : "Your recent screening history"}</p>
           </div>
 
           <div className="dash-assessment-list">
             {visibleAssessments.length > 0 ? (
               visibleAssessments.map((item, index) => {
-                const confVal = parseFloat((item.confidence || "0").replace('%', ''));
-                const isItemHighRisk = (item.risk && item.risk.toLowerCase().includes('high')) || confVal > 70;
+                const high = isHighRisk(item);
                 return (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="dash-assessment-row"
                     onClick={() => {
-                      localStorage.setItem("lastPrediction", JSON.stringify(item));
+                      saveLastPrediction(item);
                       navigate(isDoctor ? "/doctor-results" : "/results");
                     }}
                   >
                     <div className="row-avatar">
-                      {isDoctor ? (item.title ? item.title[0] : 'P') : 'Me'}
+                      {isDoctor ? (item.predicted_disease ? item.predicted_disease[0] : "P") : "Me"}
                     </div>
                     <div className="row-info">
-                      <h4>{item.title || 'Genetic Screening'}</h4>
+                      <h4>{item.title || "Genetic Screening"}</h4>
                       <p>
-                        <span>Record ID: <strong>{item.id || currentUser.id}</strong></span> • 
+                        <span>Record ID: <strong>{item.id || currentUser.id}</strong></span> •
                         <span> Date: {item.date || new Date().toLocaleDateString()}</span>
-                        {isDoctor && item.patientName && <> • <span>Patient: <strong>{item.patientName}</strong></span></>}
+                        {isDoctor && item.patientName && <> • <span>By: <strong>{item.patientName}</strong></span></>}
                       </p>
                     </div>
                     <div className="row-badges">
-                      <span className="badge-conf">{item.confidence || '94.00%'}</span>
-                      <span className={`badge-risk ${isItemHighRisk ? 'risk-hi' : 'risk-lo'}`}>
-                        {isItemHighRisk ? 'High Risk' : 'Normal'}
+                      <span className="badge-conf">{item.confidence || "N/A"}</span>
+                      <span className={`badge-risk ${high ? "risk-hi" : "risk-lo"}`}>
+                        {item.risk || item.risk_level || "Moderate"}
                       </span>
                     </div>
                   </div>
@@ -187,7 +230,7 @@ function Dashboard({ isOpen, setIsOpen }) {
               })
             ) : (
               <div className="empty-state-box">
-                <p>{isDoctor ? "No patient records found in the system." : "You have not run any personal assessments yet."}</p>
+                <p>{isDoctor ? "You have not run any assessments yet." : "You have not run any personal assessments yet."}</p>
               </div>
             )}
           </div>
@@ -196,36 +239,28 @@ function Dashboard({ isOpen, setIsOpen }) {
         {/* Right: Disorder Distribution */}
         <div className="dash-box">
           <div className="dash-box-header">
-            <h3>{isDoctor ? 'Disorder Distribution' : 'Health Summary'}</h3>
-            <p>{isDoctor ? 'Breakdown of predicted genetic conditions' : 'Your genetic risk analysis'}</p>
+            <h3>{isDoctor ? "Disorder Distribution" : "Health Summary"}</h3>
+            <p>{isDoctor ? "Breakdown of predicted genetic conditions" : "Your genetic risk analysis"}</p>
           </div>
 
           <div className="distribution-content-wrap">
             <div className="total-badge-circle">
               <span className="big-num">{totalCount}</span>
-              <span className="small-lbl">{isDoctor ? 'Evaluated Cases' : 'Total Reports'}</span>
+              <span className="small-lbl">{isDoctor ? "Evaluated Cases" : "Total Reports"}</span>
             </div>
 
             <div className="bars-list">
-              <div className="bar-row">
-                <div className="bar-labels">
-                  <span>Hemophilia / Thalassemia</span>
-                  <strong>{hemoThalPercent}%</strong>
+              {distribution.map((d) => (
+                <div className="bar-row" key={d.name}>
+                  <div className="bar-labels">
+                    <span>{d.name}</span>
+                    <strong>{d.percent}%</strong>
+                  </div>
+                  <div className="progress-track">
+                    <div className="progress-fill" style={{ width: `${d.percent}%` }}></div>
+                  </div>
                 </div>
-                <div className="progress-track">
-                  <div className="progress-fill" style={{ width: `${hemoThalPercent}%` }}></div>
-                </div>
-              </div>
-
-              <div className="bar-row">
-                <div className="bar-labels">
-                  <span>Cystic Fibrosis / Disorders</span>
-                  <strong>{cysticPercent}%</strong>
-                </div>
-                <div className="progress-track">
-                  <div className="progress-fill" style={{ width: `${cysticPercent}%` }}></div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

@@ -7,8 +7,9 @@ class Prediction(models.Model):
         User,
         on_delete=models.CASCADE,
         null=True,
-        blank=True
+        blank=True,
     )
+    explanation = models.JSONField(null=True, blank=True)
 
     # =========================
     # 12 RAW DATASET FEATURES

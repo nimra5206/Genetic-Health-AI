@@ -3,6 +3,70 @@ import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../config";
 import "./NewPrediction.css";
 
+/* ---------- helpers: har user ki alag storage key (doosre account ka data nahi aata) ---------- */
+const currentUserId = () => {
+  try {
+    const u = JSON.parse(localStorage.getItem("user") || "{}");
+    return String(u.id ?? u.email ?? u.username ?? u.name ?? "anon").toLowerCase();
+  } catch {
+    return "anon";
+  }
+};
+
+const saveLastPrediction = (result) => {
+  try {
+    localStorage.setItem(`gh_last_prediction:${currentUserId()}`, JSON.stringify(result));
+  } catch {
+    /* ignore */
+  }
+};
+
+const pushLocalHistory = (item) => {
+  try {
+    const key = `gh_history:${currentUserId()}`;
+    const list = JSON.parse(localStorage.getItem(key) || "[]");
+    list.unshift(item);
+    localStorage.setItem(key, JSON.stringify(list.slice(0, 50)));
+  } catch {
+    /* ignore */
+  }
+};
+
+// Presets = asli dataset ke har disease ke class-average values (notebook Section 1.5).
+// NOTE: dataset mein "Normal/Healthy" class hi nahi hai, isliye Normal preset hata diya gaya hai.
+const PRESETS = {
+  thalassemia: {
+    age: "41", gender: "1", family_history: "0",
+    hemoglobin: "8.2", fetal_hemoglobin: "14.9", rdw_cv: "17.2", serum_ferritin: "50",
+    brca1_expression: "0.21", p53_mutation: "0",
+    sweat_chloride: "41.4", sickled_rbc_percent: "1", il6_level: "5.5",
+  },
+  hemophilia: {
+    age: "42", gender: "0", family_history: "0",
+    hemoglobin: "10.4", fetal_hemoglobin: "4.9", rdw_cv: "14.1", serum_ferritin: "122",
+    brca1_expression: "0.20", p53_mutation: "0",
+    sweat_chloride: "39.9", sickled_rbc_percent: "1.4", il6_level: "4.9",
+  },
+  breast_cancer: {
+    age: "39", gender: "1", family_history: "0",
+    hemoglobin: "13.4", fetal_hemoglobin: "1.5", rdw_cv: "13.6", serum_ferritin: "98",
+    brca1_expression: "0.72", p53_mutation: "1",
+    sweat_chloride: "42.2", sickled_rbc_percent: "1.3", il6_level: "19.2",
+  },
+  sickle_cell: {
+    age: "40", gender: "0", family_history: "0",
+    hemoglobin: "7.2", fetal_hemoglobin: "17.1", rdw_cv: "17.9", serum_ferritin: "98",
+    brca1_expression: "0.21", p53_mutation: "0",
+    sweat_chloride: "40.3", sickled_rbc_percent: "28", il6_level: "5",
+  },
+  cystic_fibrosis: {
+    age: "38", gender: "1", family_history: "0",
+    hemoglobin: "13.3", fetal_hemoglobin: "1.3", rdw_cv: "13.6", serum_ferritin: "129",
+    brca1_expression: "0.21", p53_mutation: "0",
+    sweat_chloride: "69", sickled_rbc_percent: "1.4", il6_level: "17.7",
+  },
+};
+
 function NewPrediction() {
   const navigate = useNavigate();
 
@@ -50,81 +114,8 @@ function NewPrediction() {
 
     setSelectedDisease(type);
 
-    if (type === "normal") {
-      setForm({
-        age: "28",
-        gender: "0",
-        family_history: "0",
-        hemoglobin: "14.2",
-        fetal_hemoglobin: "0.5",
-        rdw_cv: "12.5",
-        serum_ferritin: "110",
-        brca1_expression: "0.95",
-        p53_mutation: "0",
-        sweat_chloride: "18",
-        sickled_rbc_percent: "0",
-        il6_level: "2.1",
-      });
-    } else if (type === "thalassemia") {
-      setForm({
-        age: "24",
-        gender: "1",
-        family_history: "1",
-        hemoglobin: "9.5",
-        fetal_hemoglobin: "4.2",
-        rdw_cv: "18.2",
-        serum_ferritin: "320",
-        brca1_expression: "0.88",
-        p53_mutation: "0",
-        sweat_chloride: "22",
-        sickled_rbc_percent: "0.1",
-        il6_level: "5.4",
-      });
-    } else if (type === "cystic_fibrosis") {
-      setForm({
-        age: "18",
-        gender: "0",
-        family_history: "1",
-        hemoglobin: "13.0",
-        fetal_hemoglobin: "0.8",
-        rdw_cv: "13.8",
-        serum_ferritin: "85",
-        brca1_expression: "0.90",
-        p53_mutation: "0",
-        sweat_chloride: "88",
-        sickled_rbc_percent: "0.0",
-        il6_level: "14.2",
-      });
-    } else if (type === "sickle_cell") {
-      setForm({
-        age: "22",
-        gender: "1",
-        family_history: "1",
-        hemoglobin: "8.2",
-        fetal_hemoglobin: "12.5",
-        rdw_cv: "19.0",
-        serum_ferritin: "210",
-        brca1_expression: "0.92",
-        p53_mutation: "0",
-        sweat_chloride: "25",
-        sickled_rbc_percent: "28.5",
-        il6_level: "6.8",
-      });
-    } else if (type === "hereditary_cancer") {
-      setForm({
-        age: "42",
-        gender: "1",
-        family_history: "1",
-        hemoglobin: "12.1",
-        fetal_hemoglobin: "0.4",
-        rdw_cv: "14.1",
-        serum_ferritin: "95",
-        brca1_expression: "0.42",
-        p53_mutation: "1",
-        sweat_chloride: "20",
-        sickled_rbc_percent: "0.0",
-        il6_level: "8.5",
-      });
+    if (PRESETS[type]) {
+      setForm({ ...PRESETS[type] });
     } else {
       setForm(emptyFormState);
     }
@@ -152,18 +143,6 @@ function NewPrediction() {
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
-
-    const diseaseTitles = {
-      normal: "Normal Health Screening",
-      thalassemia: "Thalassemia Major / Trait Panel",
-      cystic_fibrosis: "Cystic Fibrosis Screening",
-      sickle_cell: "Sickle Cell Anemia Panel",
-      hereditary_cancer: "Hereditary Cancer Risk (BRCA/p53)",
-    };
-
-    const evaluatedTitle =
-      diseaseTitles[selectedDisease] ||
-      "Comprehensive Genetic Panel Screening";
 
     const payload = {
       age: Number(form.age),
@@ -214,27 +193,28 @@ function NewPrediction() {
         throw new Error(errorMessage);
       }
 
+      // Title ab preset se nahi, model ki asli prediction se banta hai
+      const evaluatedTitle = data.predicted_disease
+        ? `${data.predicted_disease} Risk Assessment`
+        : "Comprehensive Genetic Panel Screening";
+
       const fullResult = {
         ...data,
         id: data.id || `#GH-${Math.floor(1000 + Math.random() * 9000)}`,
         title: evaluatedTitle,
+        primary_condition: data.predicted_disease,
         risk: data.risk_level || data.risk || "Moderate",
-        confidence: `${data.confidence || 94}%`,
+        confidence: `${Number(data.confidence).toFixed(1)}%`,
+        confidence_value: Number(data.confidence),
+        inputs: payload,
         date: new Date().toLocaleDateString(),
         patientEmail: userObj.email || "",
         patientName: userObj.username || userObj.name || "Patient"
       };
 
-      // 1. Last prediction save karein result page ke liye
-      localStorage.setItem(
-        "lastPrediction",
-        JSON.stringify(fullResult)
-      );
-
-      // 2. Assessment history mein push karein taake Dashboard live update ho jaye
-      const existingHistory = JSON.parse(localStorage.getItem("assessment_history") || "[]");
-      existingHistory.unshift(fullResult);
-      localStorage.setItem("assessment_history", JSON.stringify(existingHistory));
+      // Sirf is user ke liye save hota hai (doosre account ko nazar nahi aata)
+      saveLastPrediction(fullResult);
+      pushLocalHistory(fullResult);
 
       setToastMessage({
         type: "success",
@@ -294,20 +274,20 @@ function NewPrediction() {
             <option value="">
               Manual Entry (Blank Fields)
             </option>
-            <option value="normal">
-              Normal Health Sample
-            </option>
             <option value="thalassemia">
               Thalassemia Pattern
             </option>
-            <option value="cystic_fibrosis">
-              Cystic Fibrosis Pattern
+            <option value="hemophilia">
+              Hemophilia Pattern
+            </option>
+            <option value="breast_cancer">
+              Breast Cancer Pattern (BRCA1/p53)
             </option>
             <option value="sickle_cell">
               Sickle Cell Anemia Pattern
             </option>
-            <option value="hereditary_cancer">
-              Hereditary Cancer Risk (BRCA1/p53)
+            <option value="cystic_fibrosis">
+              Cystic Fibrosis Pattern
             </option>
           </select>
         </div>

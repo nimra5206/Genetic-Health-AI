@@ -78,6 +78,10 @@ function PredictionHistory() {
     return Math.min(100, Math.max(0, numeric));
   };
 
+  // Record ke alag-alag field names mein se confidence nikalta hai
+  const getRecordConfidence = (record) =>
+    getConfidence(record.confidence_value ?? record.confidence ?? record.probability);
+
   const filteredRecords = records.filter((record) => {
     const disease = record.predicted_disease || record.disease || record.result || "";
     const diseaseText = String(disease).toLowerCase();
@@ -85,22 +89,45 @@ function PredictionHistory() {
 
     if (!searchMatch) return false;
     if (filter === "all") return true;
-    if (filter === "normal") return diseaseText.includes("normal");
+    if (filter === "normal") return !(getConfidence(record.confidence) >= 70);
     if (filter === "high") {
       const confidence = getConfidence(record.confidence);
-      return confidence !== null && confidence >= 80;
+      return confidence !== null && confidence >= 70;
     }
     return true;
   });
 
   const handleViewReport = (record) => {
-    localStorage.setItem("lastPrediction", JSON.stringify(record));
+    let uid = "anon";
+    try {
+      const u = JSON.parse(localStorage.getItem("user") || "{}");
+      uid = String(u.id ?? u.email ?? u.username ?? u.name ?? "anon").toLowerCase();
+    } catch {}
+
+    // Isi browser mein saved probabilities / inputs agar maujood hon to jod dein
+    let extra = {};
+    try {
+      const local = JSON.parse(localStorage.getItem(`gh_history:${uid}`) || "[]");
+      extra = local.find((h) => String(h.id).replace("#GH-", "") === String(record.id)) || {};
+    } catch {}
+
+    const conf = Number(record.confidence);
+    const full = {
+      ...extra,
+      ...record,
+      predicted_disease: record.predicted_disease,
+      confidence: `${Number.isNaN(conf) ? "N/A" : conf.toFixed(1)}%`,
+      confidence_value: conf,
+      risk_level: record.risk_level || (conf >= 70 ? "High" : conf >= 40 ? "Moderate" : "Low"),
+    };
+
+    localStorage.setItem(`gh_last_prediction:${uid}`, JSON.stringify(full));
     navigate(isDoctor ? "/doctor-results" : "/results");
   };
 
   const handlePrint = (record) => {
     const disease = record.predicted_disease || record.disease || record.result || "Prediction Report";
-    const confidence = getConfidence(record.confidence);
+    const confidence = getRecordConfidence(record);
 
     const html = `
       <html>
@@ -145,7 +172,7 @@ function PredictionHistory() {
 
   return (
     <div className={`history-page ${!isDoctor ? "patient-mode" : ""}`}>
-      
+
       {/* Header Banner */}
       <div className="history-header">
         <div>
@@ -177,7 +204,7 @@ function PredictionHistory() {
               onClick={() => setFilter(item)}
               className={`tab-btn ${filter === item ? "active" : ""}`}
             >
-              {item === "all" ? "All Records" : item === "normal" ? "Normal Status" : "High Confidence"}
+              {item === "all" ? "All Records" : item === "normal" ? "Lower Risk" : "High Risk"}
             </button>
           ))}
         </div>
@@ -220,7 +247,7 @@ function PredictionHistory() {
               <tbody>
                 {filteredRecords.map((record, index) => {
                   const disease = record.predicted_disease || record.disease || record.result || "Unknown";
-                  const confidence = getConfidence(record.confidence);
+                  const confidence = getRecordConfidence(record);
                   const isHovered = hoveredRow === index;
 
                   return (
@@ -238,8 +265,8 @@ function PredictionHistory() {
                           <div className="prob-container">
                             <span className="prob-val">{confidence.toFixed(1)}%</span>
                             <div className="history-progress-track">
-                              <div 
-                                className="history-progress-fill" 
+                              <div
+                                className="history-progress-fill"
                                 style={{ width: `${confidence}%` }}
                               ></div>
                             </div>
